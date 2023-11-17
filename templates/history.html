@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+History
+{% endblock %}
+
+{% block main %}
+
+<table class="table table-striped">
+  <thead>
+    <th>Symbol</th>
+    <th>Shares</th>
+    <th>Price</th>
+    <th>Transacted</th>
+  </thead>
+  <tbody>
+    {% for stk in stks %}
+    <tr>
+      <td>{{stk.symbol}}</td>
+      <td>{{stk.shares}}</td>
+      <td>{{stk.price | usd}}</td>
+      <td>{{stk.date}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

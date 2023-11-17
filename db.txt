@@ -1,0 +1,25 @@
+
+
+db.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    full_name TEXT,
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+''')
+
+db.execute('''
+CREATE TABLE IF NOT EXISTS donations(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    charity TEXT NOT NULL,
+    shares INTEGER NOT NULL,
+    price NUMERIC NOT NULL,
+    operation TEXT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES users (id)
+);
+''')
