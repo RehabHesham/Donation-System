@@ -79,33 +79,36 @@ def about():
     return render_template("about.html")
 
 
-#TODO: edit pervious buy to donate
 @app.route("/donate", methods=["GET", "POST"])
 @login_required
 def donate():
     """Buy shares of stock"""
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        symbol = request.form.get("symbol")
-        price = lookup(symbol)
+        charityId = request.form.get("charity")
         shares = request.form.get("shares")
+        try:
+            shares = int(shares)
+        except ValueError:
+            return apology("share must be a positive integer", 400)
+        
+        if not charityId:
+            return apology('you must provide charity',400)
+        elif not shares:
+            return apology('you must provide shares number',400)
+        elif shares < 1:
+            return apology('share must be a positive integer',400)
+        
+        price = db.execute('select share_price from charities where id = ?',charityId)
+        
+        if not price:
+            return apology('must provide valid charity',400)
+        
         user_cash = db.execute(
             "SELECT cash FROM users WHERE id = ? ", session["user_id"]
         )[0]["cash"]
 
-        if not symbol:
-            return apology("a valid symbol must be provide", 400)
-        elif price is None:
-            return apology("must provide valid symbol", 400)
-
-        try:
-            shares = int(shares)
-            if shares < 1:
-                return apology("share must be a positive integer", 400)
-        except ValueError:
-            return apology("share must be a positive integer", 400)
-
-        shares_price = shares * price["price"]
+        shares_price = shares * price[0]["share_price"]
         if user_cash < (shares_price):
             return apology("cash is not sufficient", 400)
         else:
@@ -115,19 +118,19 @@ def donate():
                 session["user_id"],
             )
             db.execute(
-                "INSERT INTO charities (userID, symbol, shares, price, operation) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO donations (userID, charityID, shares, price) VALUES (?, ?, ?, ?)",
                 session["user_id"],
-                symbol.upper(),
+                charityId,
                 shares,
-                price["price"],
-                "buy",
+                shares_price,
             )
 
-            flash("Transaction successful")
+            flash("Donation successful")
             return redirect("/")
 
     else:
-        return render_template("buy.html")
+        charities = db.execute('select id,name,share_price from charities')
+        return render_template("donate.html",charities=charities)
 
 
 
@@ -136,8 +139,14 @@ def donate():
 @login_required
 def transactions():
     """Show history of transactions"""
-    charities = db.execute("SELECT * FROM charities WHERE userID = ?", session["user_id"])
-    return render_template("history.html", stks=charities)
+    charities = db.execute('''
+                    SELECT c.name AS charity_name, d.shares,
+                        d.price, d.timestamp
+                    FROM charities c
+                    JOIN donations d ON c.id = d.charityID
+                    WHERE userID = ?; '''
+                    , session["user_id"])
+    return render_template("transactions.html", charities=charities)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -191,7 +200,6 @@ def logout():
     return redirect("/")
 
 
-#TODO: Add charity previous quote
 @app.route("/charity", methods=["GET", "POST"])
 @login_required
 def charity():
