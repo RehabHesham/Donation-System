@@ -12,13 +12,37 @@ additional contrib modules, providing additional functionality or helping users
 customize some aspects of the search process.
 
 
-## Table of contents
+## Table of Contents
 
-- Requirements
-- Installation
-- Configuration
-- Information for developers
-- Maintainers
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Features](#features)
+  - [Home Page](#home-page)
+  - [About Page](#about-page)
+  - [Registration and Login](#registration-and-login)
+  - [User Dashboard](#user-dashboard)
+  - [Adding a Charity](#adding-a-charity)
+  - [Adding Funds](#adding-funds)
+  - [Making Donations](#making-donations)
+  - [Viewing Transactions](#viewing-transactions)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Getting Started
+
+### Prerequisites
+
+- [Python](https://www.python.org/) (version 3.x)
+- [SQLite](https://www.sqlite.org/index.html)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/donation-platform.git
 
 
 ## Requirements
