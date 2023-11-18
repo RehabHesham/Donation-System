@@ -22,10 +22,9 @@ cursor.execute('''
 CREATE TABLE IF NOT EXISTS donations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userID INTEGER NOT NULL,
-    charityID INTEGER,
-    shares INTEGER,
+    charityID INTEGER NOT NULL,
+    shares INTEGER NOT NULL,
     price NUMERIC NOT NULL,
-    operation TEXT NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userID) REFERENCES users (id),
     FOREIGN KEY (charityID) REFERENCES charities (id)
