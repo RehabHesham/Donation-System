@@ -3,6 +3,7 @@
 Give Hope Hub is a versatile module designed to empower the creation of searches for various entities within the Give Hope Hub donation website. This module serves as a fundamental building block for administrators and developers, facilitating an efficient and flexible search experience.
 
 This is a final project for [CS50] 
+#### Video Demo: https://youtu.be/pNJqGqhJiVE
 
 [CS50]: https://cs50.harvard.edu/x/2023/
 
