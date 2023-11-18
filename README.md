@@ -14,7 +14,7 @@ numerous ways of extension the module provides. Hence, the growing number of
 additional contribution modules provides additional functionality or helps users
 customize some aspects of the search process.
 
-
+#### Description:
 ## Table of Contents
 
 - [Getting Started](#getting-started)
